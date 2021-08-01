@@ -1,0 +1,7 @@
+[reconfigure]
+method = topic
+name = /rosgraph_manipulator_action_server/goal
+msg_type = MvpReconfigurationActionGoal
+dependencies = metacontrol_msgs.msg
+params_name = goal.desired_configuration_name
+params_type = str

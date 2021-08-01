@@ -1,0 +1,18 @@
+/*
+    reasoner
+    ---------------------------
+
+    Jason Project File
+
+    This file defines the initial state of the MAS
+
+    Jason 2.6.3
+    julho 14, 2021 - 14:55:54
+*/
+
+MAS reasoner {
+
+    infrastructure: Centralised
+
+    agents: reasoner app_kb.asl agentArchClass jasonros.RosArch;
+}

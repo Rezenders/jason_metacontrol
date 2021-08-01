@@ -1,0 +1,15 @@
+<launch>
+    <include file="$(find metacontrol_sim)/launch/ridgeback_bringup.launch" />
+
+    <arg name="agent_path" default="$(find jason_metacontrol)/src/reasoner"/>
+    <arg name="actions_manifest" default="$(find jason_metacontrol)/config/actions_manifest"/>
+    <arg name="perceptions_manifest" default="$(find jason_metacontrol)/config/perceptions_manifest"/>
+
+    <node name="jason_hw_bridge" pkg="jason_ros" type="hw_bridge.py"
+      args="-a $(arg actions_manifest) -p $(arg perceptions_manifest)"/>
+
+    <node name="jason_agent" pkg="jason_ros" type="gradle_starter.sh"
+          args="$(arg agent_path)/build.gradle" output="screen"/>
+
+
+</launch>

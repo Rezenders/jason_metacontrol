@@ -1,0 +1,6 @@
+[diagnostics]
+name = diagnostics
+msg_type = diagnostic_msgs/DiagnosticArray
+dependencies = diagnostic_msgs.msg
+args = status[](values[](key, value))
+buf = update
