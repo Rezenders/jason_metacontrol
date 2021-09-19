@@ -5,3 +5,10 @@ msg_type = MvpReconfigurationActionGoal
 dependencies = metacontrol_msgs.msg
 params_name = goal.desired_configuration_name
 params_type = str
+
+[stop_configuration]
+method = topic
+name = /test/stop
+msg_type = String
+dependencies = std_msgs.msg
+params_name = data

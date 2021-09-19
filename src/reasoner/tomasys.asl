@@ -9,7 +9,9 @@
     <-  .findall(Fd, function_design(Fd, Function), Fd_list);
         !select_function_design(Fd_list, Function).
 
-//TODO: if objective is removed remove function_grouding and stop function
+-objective(Objective): function(Function, Objective) & function_grouding(Fd, Function)
+    <-  -function_grouding(Fd, Function);
+        stop_configuration(Fd).
 
 // Select a FD that satisfies the QA values, it chooses in the order defined in the BB
 +!select_function_design([Head|Tail], Function)
@@ -24,7 +26,7 @@
     <-  for(function_design_qa(Fd, QA, QAValue)){
             ?qa(QA, CurrentValue); // What if there is no QA yet? Initialize with a default value?
             CurrentValue >= QAValue; // TODO: Is it greater or lower? Need to check in the paper
-            .print(CurrentValue >= QAValue);
+            // .print(CurrentValue >= QAValue);
         }.
 
 // Event Triggered when new diagnostic is percepted
