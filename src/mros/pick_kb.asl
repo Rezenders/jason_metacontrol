@@ -33,8 +33,14 @@ qa(right_arm_safe, 0). // Should the qa be initialized? 1? 0?
 objective(pick_place).
 
 /* Initial goals */
+!pick.
 
 /* Plans */
-
++!pick
+  <-  .wait(7000);
+      -qa(left_arm_safe, 1);
+      -qa(right_arm_safe, 0);
+      +qa(left_arm_safe, 0);
+      +qa(right_arm_safe, 1).
 
 {include("tomasys.asl")}
