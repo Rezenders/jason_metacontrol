@@ -37,10 +37,14 @@
 +!test_function_design_requirements(Fd).
 
 // Event Triggered when new diagnostic is percepted
-+diagnostics([[[Key, Value]]])
++diagnostics([[[Key, Value]]]) : not qa(Key, Value)
     <-  .abolish(qa(Key, _));
-        +qa(Key, Value);
-        !reevaluate_function_groudings.
+        +qa(Key, Value).
+
++diagnostics([[[Key, Value]]]).
+
++qa(Key, Value)
+  <- !reevaluate_function_groudings.
 
 // Check if FG conditions still stands
 +!reevaluate_function_groudings
