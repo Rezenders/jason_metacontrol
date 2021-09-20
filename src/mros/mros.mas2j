@@ -1,0 +1,7 @@
+MAS mros {
+
+    infrastructure: Centralised
+
+    /* agents: navigation_mros nav_kb.asl agentArchClass jasonros.RosArch; */
+    agents: pick_mros pick_kb.asl agentArchClass jasonros.RosArch;
+}

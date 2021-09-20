@@ -1,8 +1,8 @@
 <launch>
-    <include file="$(find metacontrol_sim)/launch/ridgeback_bringup.launch" />
+    <!-- <include file="$(find metacontrol_sim)/launch/ridgeback_bringup.launch" /> -->
 
     <arg name="agent_path" default="$(find jason_metacontrol)/src/mros"/>
-    <arg name="actions_manifest" default="$(find jason_metacontrol)/config/actions_manifest"/>
+    <arg name="actions_manifest" default="$(find jason_metacontrol)/config/mock_actions_manifest"/>
     <arg name="perceptions_manifest" default="$(find jason_metacontrol)/config/perceptions_manifest"/>
 
     <node name="jason_hw_bridge" pkg="jason_ros" type="hw_bridge.py"

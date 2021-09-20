@@ -28,4 +28,4 @@ objective(navigate).
         .print("Stoping navigation!!!!!");
         -objective(navigate).
 
-{ include("tomasys.asl") }
+{include("tomasys.asl")}

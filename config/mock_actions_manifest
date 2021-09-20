@@ -1,0 +1,14 @@
+[reconfigure]
+method = topic
+name = /test/start
+msg_type = String
+dependencies = std_msgs.msg
+params_name = data
+params_type = str
+
+[stop_configuration]
+method = topic
+name = /test/stop
+msg_type = String
+dependencies = std_msgs.msg
+params_name = data
