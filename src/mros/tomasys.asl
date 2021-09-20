@@ -3,9 +3,18 @@
     <-  .findall(Fd, function_design(Fd, Function), Fd_list);
         !!select_function_design(Fd_list, Function).
 
+// Event triggered when new objective is removed
 -objective(Objective): function(Function, Objective) & function_grouding(Fd, Function)
-    <-  -function_grouding(Fd, Function);
-        stop_configuration(Fd).
+    <-  stop_configuration(Fd);
+        -function_grouding(Fd, Function).
+
+// Event triggered when function_grouding is removed
+// Remove all objectives that were added by this function_grouding
+-function_grouding(Fd, Function): objective(Objective)[Fd]
+  <-  .findall(objective(Obj)[Fd], objective(Obj)[Fd], LObj);
+      for (.member(O, LObj)) {
+          .abolish(O);
+      }.
 
 // Select a FD that satisfies the QA values, it chooses in the order defined in the BB
 +!select_function_design([Head|Tail], Function)
@@ -29,7 +38,6 @@
 +!test_function_design_requirements(Fd): function_design_requires(Fd, Objective) & function(Function, Objective)
     <-  +objective(Objective)[Fd];
         .wait(function_grouding(_, Function)). //TODO: Add timeout (i think the plan fails when a timeout occurs)
-    // TODO: objective must be removed when FD is removed
 
 +!test_function_design_requirements(Fd): function_design_requires(Fd, Objective)
   <-  .print("There is no Function that solves the objective: ", Objective).
