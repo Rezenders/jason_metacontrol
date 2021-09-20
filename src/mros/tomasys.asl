@@ -34,7 +34,7 @@
 +!test_function_design_requirements(Fd): function_design_requires(Fd, Objective)
   <-  .print("There is no Function that solves the objective: ", Objective).
 
-+!test_function_design_requirements(Head).
++!test_function_design_requirements(Fd).
 
 // Event Triggered when new diagnostic is percepted
 +diagnostics([[[Key, Value]]])
@@ -44,13 +44,13 @@
 
 // Check if FG conditions still stands
 +!reevaluate_function_groudings
-    <-  for(function_grouding(Fd, Function)){
-            !test_function_grouding(Fd, Function);
+    <-  for(function_grouding(Fg, Function)){
+            !test_function_grouding(Fg, Function);
         }.
 
-+!test_function_grouding(Fd, Function) <- !test_function_design(Fd).
++!test_function_grouding(Fg, Function) <- !test_function_design(Fg).
 
--!test_function_grouding(Fd, Function)
+-!test_function_grouding(Fg, Function)
     <-  .findall(Fd, function_design(Fd, Function), Fd_list);
         !!select_function_design(Fd_list, Function).
 
