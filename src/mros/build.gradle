@@ -6,25 +6,20 @@ apply plugin: 'eclipse'
 version '1.0'
 group   'org.jason'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 repositories {
     mavenCentral()
     jcenter()
 
-    maven { url "https://raw.github.com/rosjava/rosjava_mvn_repo/master" } //this shouldn't be required
     maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
+    maven { url "https://raw.github.com/rosjava/rosjava_mvn_repo/master" }
     maven { url "https://raw.github.com/jason-lang/mvn-repo/master" }
-    maven { url "https://jade.tilab.com/maven/" }
-
     flatDir { dirs 'lib' }
 }
 
 dependencies {
-    compile group: 'org.jason',     name: 'jason' ,   version: '2.6.3'
-    compile group: 'org.jason-lang',     name: 'jasonros' ,   version: '1.8'
-    compile group: 'org.jason-lang',     name: 'jasonros_msgs' ,   version: '1.8'
+    implementation group: 'org.jason',     name: 'jason' ,   version: '3.0-SNAPSHOT'
+    implementation group: 'org.jason-lang',     name: 'jasonros' ,   version: '1.9'
+    implementation group: 'org.jason-lang',     name: 'jasonros_msgs' ,   version: '1.9'
 }
 
 sourceSets {
