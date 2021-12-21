@@ -1,7 +1,9 @@
 /* Updating QAs */
+// Event triggered when a msg is received from diagnostics topic
 +diagnostics(KeyValuesVector)
   <-  !update_qas(KeyValuesVector).
 
+// Recursively update each qa from the list
 +!update_qas([H | T]): .list(H) & not H=[Key, Value]
   <-  !update_qas(H);
       !update_qas(T).
@@ -13,11 +15,13 @@
 
 +!update_qas([]).
 
+// Update QA if key is a string and equal qa not in BB
 @update_single_qa[atomic]
 +!update_single_qa(Key, Value): .string(Key) & not qa(Key, Value)
   <-  .abolish(qa(Key,_));
       +qa(Key, Value).
 
+// Update QA if qa key is not a string and equal qa not in BB
 @update_single_qa2[atomic]
 +!update_single_qa(Key, Value): not .string(Key) & .term2string(Key, KeyString) & not qa(KeyString, Value)
   <-  .abolish(qa(KeyString,_));
@@ -25,6 +29,7 @@
 
 +!update_single_qa(Key, Value).
 
+// Event triggered when QA is updated. Triggers goal to reevaluate Function groundings
 +qa(Key, Value)
   <-  .findall(Fd, function_design_qa(Fd, Key,_) & function_grouding(Fd, _), Fd_list); // Find all function groundings that have a QA with Key
       !!reevaluate_function_groudings(Fd_list).
@@ -37,7 +42,7 @@
   <-  .findall(Fd, function_design(Fd, Function), Fd_list);
       !!select_function_design(Fd_list, Function).
 
-// Event triggered when new objective is removed
+// Event triggered when objective is removed
 -objective(Objective): function(Function, Objective) & function_grouding(Fd, Function)
   <-  stop_configuration(Fd);
       -function_grouding(Fd, Function).
@@ -61,13 +66,15 @@
           CurrentValue >= QAValue;
       }.
 
+// If all function design requirements are satisfied it does nothing
 +!test_function_design_requirements(Fd): function_design_requires(Fd, Objective) & objective(Objective) & function(Function, Objective) & function_grouding(Fd, Function).
 
+// If function desgin requires another objective to be solved and it is not satisfied, a new objective is triggered and it waits for it to be satisfied
 +!test_function_design_requirements(Fd): function_design_requires(Fd, Objective) & function(Function, Objective)
   <-  +objective(Objective)[Fd];
       .wait(function_grouding(_, Function)). //TODO: Add timeout (i think the plan fails when a timeout occurs)
 
-+!test_function_design_requirements(Fd): function_design_requires(Fd, Objective)
++!test_function_design_requirements(Fd): function_design_requires(Fd, Objective) //TODO: shouldn't this plan fail?
   <-  .print("There is no Function that solves the objective: ", Objective).
 
 +!test_function_design_requirements(Fd).
