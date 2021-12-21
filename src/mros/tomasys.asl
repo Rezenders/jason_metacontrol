@@ -60,14 +60,16 @@
 
 //Should be atomic?
 @update_single_qa[atomic]
-+!update_single_qa(Key, Value): .string(Key)
++!update_single_qa(Key, Value): .string(Key) & not qa(Key, Value)
   <-  .abolish(qa(Key,_));
       +qa(Key, Value).
 
 @update_single_qa2[atomic]
-+!update_single_qa(Key, Value): .term2string(Key, KeyString)
++!update_single_qa(Key, Value): not .string(Key) & .term2string(Key, KeyString) & not qa(KeyString, Value)
   <-  .abolish(qa(KeyString,_));
       +qa(KeyString, Value).
+
++!update_single_qa(Key, Value).
 
 +qa(Key, Value)
   <- !reevaluate_function_groudings.
