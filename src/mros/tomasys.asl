@@ -30,7 +30,6 @@
   <-  for(function_design_qa(Fd, QA, QAValue)){
           ?qa(QA, CurrentValue); // TODO: What if there is no QA yet? Initialize with a default value?
           CurrentValue >= QAValue;
-          // .print(CurrentValue >= QAValue);
       }.
 
 +!test_function_design_requirements(Fd): function_design_requires(Fd, Objective) & objective(Objective) & function(Function, Objective) & function_grouding(Fd, Function).
@@ -72,18 +71,26 @@
 +!update_single_qa(Key, Value).
 
 +qa(Key, Value)
-  <- !reevaluate_function_groudings.
+  <-  .findall(Fd, function_design_qa(Fd, Key,_) & function_grouding(Fd, _), Fd_list); // Find all function groundings that have a QA with Key
+      !reevaluate_function_groudings(Fd_list).
 
 // Check if FG conditions still stands
-+!reevaluate_function_groudings
-  <-  for(function_grouding(Fg, Function)){
-          !test_function_grouding(Fg, Function);
-      }.
++!reevaluate_function_groudings([H|T])
+  <-  !test_function_grouding(H);
+      !reevaluate_function_groudings(T).
 
-+!test_function_grouding(Fg, Function) <- !test_function_design(Fg).
++!reevaluate_function_groudings([]).
 
--!test_function_grouding(Fg, Function)
-  <-  .findall(Fd, function_design(Fd, Function), Fd_list);
+//TODO: use jason3 features? is this a sub-goal?
++!test_function_grouding(Fg)
+  <-  !test_function_design(Fg).
+      // !test_function_design_requirements(H); //TODO: is this necessary here?
+
+// TODO: should the function grounding be removed here?
+// TODO: this plan seems weird, should it only remove the fg and the rest is triggered by the event?
+-!test_function_grouding(Fg)
+  <-  ?function_grouding(Fg, Function);
+      .findall(Fd, function_design(Fd, Function), Fd_list);
       !!select_function_design(Fd_list, Function).
 
 //Reconfiguration plans
