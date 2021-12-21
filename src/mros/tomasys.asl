@@ -44,12 +44,30 @@
 
 +!test_function_design_requirements(Fd).
 
-// Event Triggered when new diagnostic is percepted
-+diagnostics([[[Key, Value]]]) : not qa(Key, Value)
-    <-  .abolish(qa(Key, _));
-        +qa(Key, Value).
++diagnostics(KeyValuesVector)
+  <-  !update_qas(KeyValuesVector).
 
-+diagnostics([[[Key, Value]]]).
++!update_qas([H | T]): .list(H) & not H=[Key, Value]
+  <-  !update_qas(H);
+      !update_qas(T).
+
++!update_qas([H | T])
+  <-  H=[Key, Value];
+      !update_single_qa(Key, Value);
+      !update_qas(T).
+
++!update_qas([]).
+
+//Should be atomic?
+@update_single_qa[atomic]
++!update_single_qa(Key, Value): .string(Key)
+  <-  .abolish(qa(Key,_));
+      +qa(Key, Value).
+
+@update_single_qa2[atomic]
++!update_single_qa(Key, Value): .term2string(Key, KeyString)
+  <-  .abolish(qa(KeyString,_));
+      +qa(KeyString, Value).
 
 +qa(Key, Value)
   <- !reevaluate_function_groudings.
