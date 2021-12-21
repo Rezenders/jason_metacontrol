@@ -27,7 +27,7 @@
 
 +qa(Key, Value)
   <-  .findall(Fd, function_design_qa(Fd, Key,_) & function_grouding(Fd, _), Fd_list); // Find all function groundings that have a QA with Key
-      !reevaluate_function_groudings(Fd_list). // TODO: use "!!"? Goal should be in parallel? 
+      !!reevaluate_function_groudings(Fd_list).
 /*****************************************************/
 
 
